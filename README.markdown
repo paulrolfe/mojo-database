@@ -17,8 +17,7 @@ Mojo Database has two (2) types of interaction with your Objective-C application
 
 ### Creating and Connecting to a SQLite DB
 
-In your application delegate header file, you should should create an instance variable that will be used to referenc
-e your database in the application.
+In your application delegate header file, you should should create an instance variable that will be used to reference your database in the application.
 
     @class MojoDatabase;
 
@@ -38,12 +37,7 @@ In your application delegate implementation file, you should include the AppData
 
     -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
       // Setup Connection to the database
-      self.database = [[[AppDatabase alloc] initWithMigrations] autorelease];
-    }
-
-    -(void)dealloc {
-      [database release], database=nil;
-      [super dealloc];
+      self.database = [[AppDatabase alloc] initWithMigrations];
     }
 
     @end
@@ -81,11 +75,6 @@ with the following basic `Friend.m` implementation file:
     @synthesize name=_name;
     @synthesize age=_age;
 
-    -(void)dealloc {
-      [_name release], _name=nil;
-      [_age release], _age=nil;
-      [super dealloc];
-    }
 
     @end
 
@@ -98,7 +87,7 @@ Creating a new friend object and saving it to your database would be as easy as:
 
 To later on retrieve that Friend object from the database:
 
-    NSArray *records = [self findByColumn:@"name" value:@"Norman Rockwell"];
+    NSArray *records = [[self class] findByColumn:@"name" value:@"Norman Rockwell"];
     if ( [records count] ) {
       Friend *normanRockwell = [records objectAtIndex:0];
     }
@@ -115,4 +104,4 @@ If you wish to contribute to Mojo Database, please fork the project and send pul
 
 ## Credits
 
-Mojo Database is based largely on Dylan Bruzenak's code from the _iPhone Advanced Projects_ book, published by Apress, and was modified and extended by [Craig P Jolicoeur](http://github.com/cpjolicoeur).
+Mojo Database is based largely on Dylan Bruzenak's code from the _iPhone Advanced Projects_ book, published by Apress, and was modified and extended by [Craig P Jolicoeur](http://github.com/cpjolicoeur). Edited to work with ARC by Paul Rolfe.
